@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+
+    <head>
+    	<meta charset="utf-8">
+        <title>Automoviles</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="p1.css">        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script src="crud.js"></script>
+    </head>
+
+    <body>
+    <div id="contenedor" class="container-fluid">
+        <div id="banner" class="jumbotron">
+            <h1>Sistema de Autos</h1>
+        </div>
+        <div id="navcontainer">
+            <ul id="globalnav">
+                <li><a href="#" onclick="altas()">Altas</a></li>
+                <li><a href="#" onclick="bajas()">Bajas</a></li>
+                <li><a href="#" onclick="cambios()">Cambios</a></li>
+                <li><a href="#" onclick="buscar()">Buscar</a></li>
+                <li><a href="#" onclick="reporte()">Reportes</a></li>
+                <li><a href="#" onclick="exportar()">Exportar</a></li>
+            </ul>
+        </div>
+        
+        <div id="altas" > 
+
+            <h2>Alta de autos</h2>
+
+            <div class="body row">
+
+            	<div class="col-md-6">
+            	Placas:<input type="text" id="placasA"><br/>
+            	Precio<input type="number" id="precioA" min="0"><br/>
+            	Marca:<input type="text" id="marcaA"><br/>
+            	Modelo:<input type="text" id="modeloA"><br/>
+            	Version:<input type="text" id="versionA"><br/>
+            	Tipo:<input type="text" id="tipoA"><br/>
+            	Año:<input type="number" id="anoA" min="1900" max="2018"><br/>
+				</div>
+
+				<div class="col-md-6"> 
+            	Kilometraje:<input type="number" id="kiloA" min="0"><br/>
+            	Num cilindros:<input type="number" id="cilindrosA" min="1" max="16"><br/>
+            	HP: <input type="number" id="hpA" min="1" max="2000"><br/>
+            	Color interior: <input type="color" id="colorintA"><br/>
+            	Color exterior: <input type="color" id="colorextA"><br/>
+            	Transmision: <select id="transmisionA">
+            		<option value="auto">Automatico</option>
+            		<option value="manual">Manual</option>
+            	</select><br/>
+            	Combustible: <select id="combustibleA">
+            		<option value="gasolina">Gasolina</option>
+            		<option value="diesel">Diesel</option>
+            	</select><br/>
+            	AC: <select id="acA">
+            		<option value="true">Si</option>
+            		<option value="false">No</option>
+            	</select>
+                <br> 
+                <button class="button btn btn-primary" type="submit" onclick="sendData()">Enviar</button>
+            	</div>
+        
+            </div>
+
+        </div>
+
+        <div id="bajas" style="display:none"> 
+            <h2>Baja de autos</h2>
+            <div class="body">
+                Introduce las placas del auto a dar de baja:<input type="text" maxlength="6" id="placasB"/><br>
+            <button class="button" type="submit" onclick="deleteData()">DAR DE BAJA</button>
+            <p id="infoBxml"></p>
+            <p id="infoBjson"></p>
+        	</div>
+		</div>
+
+        <div id="cambios" style="display:none">
+            <h2>Cambios en Información de autos</h2>
+             Introduce la placa del auto a modificar:
+         	<input type="text" maxlength="6" id="buscarC"/><br>
+        	<button class="button" type="submit" onclick="changeData()">Buscar</button>
+
+            <div class="body" id="formCambios" style="display:block">
+
+                <div class="body row">
+
+                <div class="col-md-6">
+                <p>Modifica los campos que requieras:</p>
+				Placas:<input type="text" id="placasC" readonly><br/>
+				Precio<input type="number" id="precioC" min="0"><br/>
+				Marca:<input type="text" id="marcaC"><br/>
+				Modelo:<input type="text" id="modeloC"><br/>
+				Version:<input type="text" id="versionC"><br/>
+				Tipo:<input type="text" id="tipoC"><br/>
+				Año:<input type="number" id="anoC" min="1900" max="2018"><br/>
+                </div>
+
+                <div class="col-md-6">
+				Kilometraje:<input type="number" id="kiloC" min="0"><br/>
+				Num cilindros:<input type="number" id="cilindrosC" min="1" max="16"><br/>
+				HP: <input type="number" id="hpC" min="1" max="2000"><br/>
+				Color interior: <input type="color" id="colorintC"><br/>
+				Color exterior: <input type="color" id="colorextC"><br/>
+				Transmision: <select id="transmisionC">
+					<option value="auto">Automatico</option>
+					<option value="manual">Manual</option>
+				</select><br/>
+				Combustible: <select id="combustibleC">
+					<option value="gasolina">Gasolina</option>
+					<option value="diesel">Diesel</option>
+				</select><br/>
+				AC: <select id="acC">
+					<option value="true">Si</option>
+					<option value="false">No</option>
+				</select>
+                <p id="index" style="display:none"></p>
+                <button class="button btn btn-primary" type="submit" onclick="updateData(document.getElementById('index').textContent)">Actualizar</button>
+
+                </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="buscar" style="display:none">
+            <h2>Consulta de autos</h2>
+            Selecciona un campo para buscar:<br />
+            <select id="campoBusqueda">
+                <option value="placas">Placas</option>
+                <option value="precio">Precio</option>
+                <option value="marca">Marca</option>
+                <option value="modelo">Modelo</option>
+                <option value="version">Version</option>
+                <option value="tipo">Tipo</option>
+                <option value="ano">Año</option>
+                <option value="kilometraje">Kilometraje</option>
+                <option value="cilindros">Cilindros</option>
+                <option value="hp">HP</option>
+                <option value="colorint">Color Interior</option>
+                <option value="colorext">Color Exterior</option>
+                <option value="transmision">Transmision</option>
+                <option value="combustible">Combustible</option>
+                <option value="ac">AC</option>
+            </select>
+            <input type="text" maxlength="40" id="textoBusqueda"/><br>
+            <button class="button" type="submit" onclick="busqueda()">HACER BUSQUEDA</button>
+            <p id="message"></p>
+            <table id="resultadoBusqueda" class="tabla">
+            </table>
+        </div>
+
+        <div id="reporte" style="display:none">
+            <h2>Reporte de autos</h2>
+            <h3>XML</h3>
+            <table id="tablaReporteXML" class="tabla"></table>
+            <h3>JSON</h3>
+            <table id="tablaReporteJSON" class="tabla"></table>
+        </div>
+
+        <div id="exportar" style="display:none" class="row">
+            <div class="col-md-6">
+                <h3>XML</h3>
+                <textarea rows="10" cols="40" id="xmltext"></textarea>    
+            </div>
+            <div class="col-md-6">
+                <h3>JSON</h3>
+                <textarea rows="10" cols="40" id="jsontext"></textarea>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>
