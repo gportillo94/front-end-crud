@@ -119,8 +119,9 @@
 					<option value="true">Si</option>
 					<option value="false">No</option>
 				</select>
-                <p id="index" style="display:none"></p>
-                <button class="button btn btn-primary" type="submit" onclick="updateData(document.getElementById('index').textContent)">Actualizar</button>
+                <p id="indexXML" style="display:none"></p>
+                <p id="indexJSON" style="display:none"></p>
+                <button class="button btn btn-primary" type="submit" onclick="updateData($('#indexJSON').text() , $('#indexXML').text())">Actualizar</button>
 
                 </div>
                 </div>
