@@ -47,22 +47,6 @@ var parser = new DOMParser();
 var xmlDoc = parser.parseFromString(XMLtxt,"text/xml");
 var autos = JSON.parse(JSONtxt);
 
-function buscarIndicePlacasJSON(valor){
-	for (var i=0 ; i<autos.length ; i++){
-		if (autos[i].placas == valor){
-			return i; 
-		}
-	}
-}
-
-function buscarIndicePlacasXML(valor){
-	var x = xmlDoc.getElementsByTagName("auto");
-	for(var i=0 ; i<x.length ; i++){
-		if (x[i].getElementsByTagName("placas")[0].textContent === valor)
-			return i ;
-	} 
-}
-
 function headerTabla(){
 	return "<thead><tr>\
 	<th>Placas</th>\
@@ -83,13 +67,33 @@ function headerTabla(){
 	</tr></thead>";
 }
 
+function buscarIndicePlacasJSON(valor){
+	for (var i=0 ; i<autos.length ; i++){
+		if (autos[i].placas == valor){
+			return i; 
+		}
+	}
+}
+
+function buscarIndicePlacasXML(valor){
+	var x = xmlDoc.getElementsByTagName("auto");
+	for(var i=0 ; i<x.length ; i++){
+		if (x[i].getElementsByTagName("placas")[0].textContent === valor)
+			return i ;
+	} 
+}
+
 function ocultarTodo(){
 	$("#altas").hide() ; 
 	$("#bajas").hide() ; 
 	$("#buscar").hide() ; 
 	$("#cambios").hide() ; 
 	$("#reporte").hide() ; 
-	$("#exportar").hide() ; 
+	$("#exportar").hide() ;
+	$("#multimedia").hide(); 
+	$("#canvas").hide();  
+	$("#api").hide();  
+	$("iframe").attr("src", ""); 
 }
 
 function altas(){
@@ -113,6 +117,10 @@ function buscar(){
 	$("#buscar").show() ; 
 }
 
+function api(){
+	ocultarTodo() ; 
+	$("#api").show();  
+}
 function cambios(){
 	ocultarTodo() ; 
 	$("#cambios").show(); 
@@ -128,11 +136,32 @@ function cambios(){
 
 function exportar(){
 	ocultarTodo() ; 
-	$("#exportar").show() ; 
+	$("#exportar").fadeIn("slow") ; 
 	var exportedXML = new XMLSerializer().serializeToString(xmlDoc) ; 
 	exportedXML = exportedXML.replace(/\s+/g, '');
 	$("#xmltext").val(exportedXML) ; 
 	$("#jsontext").val(JSON.stringify(autos)) ; 
+}
+
+function multimedia(){
+	ocultarTodo() ; 
+	$("#multimedia").show("slow");
+	$("iframe").attr("src" , "https://www.youtube.com/embed/frdj1zb9sMY"); 
+}
+
+function canvas(){
+	ocultarTodo() ; 
+	$("#canvas").show();
+	var dibujo = $("#dibujo")[0]; 
+	var f = dibujo.getContext("2d");
+	f.beginPath();
+	f.moveTo(50,100);
+	f.lineTo(50,200);
+	f.lineTo(150,200);
+	f.fillStyle= "green";
+	f.fill();
+	f.closePath();
+	f.stroke();
 }
 
 function busqueda(){
@@ -418,3 +447,4 @@ function updateData(indexJSON, indexXML){
 	alert("Cambio Realizado");
 	cambios() ; 
 }
+$(document).ready(reporte);

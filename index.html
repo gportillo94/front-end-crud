@@ -6,17 +6,19 @@
         <title>Automoviles</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="p1.css">        
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=true&v=3"> </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
         <script src="crud.js"></script>
     </head>
 
     <body>
     <div id="contenedor" class="container-fluid">
+
         <div id="banner" class="jumbotron">
             <h1>Sistema de Autos</h1>
         </div>
+
         <div id="navcontainer">
             <ul id="globalnav">
                 <li><a href="#" onclick="altas()">Altas</a></li>
@@ -25,56 +27,53 @@
                 <li><a href="#" onclick="buscar()">Buscar</a></li>
                 <li><a href="#" onclick="reporte()">Reportes</a></li>
                 <li><a href="#" onclick="exportar()">Exportar</a></li>
+                <li><a href="#" onclick="multimedia()">Multimedia</a></li>
+                <li><a href="#" onclick="api()">Google Maps API</a></li>
+                <li><a href="#" onclick="canvas()">Canvas</a></li>
             </ul>
         </div>
         
         <div id="altas" > 
-
             <h2>Alta de autos</h2>
-
             <div class="body row">
-
             	<div class="col-md-6">
-            	Placas:<input type="text" id="placasA"><br/>
-            	Precio<input type="number" id="precioA" min="0"><br/>
-            	Marca:<input type="text" id="marcaA"><br/>
-            	Modelo:<input type="text" id="modeloA"><br/>
-            	Version:<input type="text" id="versionA"><br/>
-            	Tipo:<input type="text" id="tipoA"><br/>
-            	Año:<input type="number" id="anoA" min="1900" max="2018"><br/>
+            	Placas:<input type="text" id="placasA" class="form-control"><br/>
+            	Precio<input type="number" id="precioA" min="0" class="form-control"><br/>
+            	Marca:<input type="text" id="marcaA" class="form-control"><br/>
+            	Modelo:<input type="text" id="modeloA" class="form-control"><br/>
+            	Version:<input type="text" id="versionA" class="form-control"><br/>
+            	Tipo:<input type="text" id="tipoA" class="form-control"><br/>
+            	Año:<input type="number" id="anoA" min="1900" max="2018" class="form-control"><br/>
 				</div>
-
 				<div class="col-md-6"> 
-            	Kilometraje:<input type="number" id="kiloA" min="0"><br/>
-            	Num cilindros:<input type="number" id="cilindrosA" min="1" max="16"><br/>
-            	HP: <input type="number" id="hpA" min="1" max="2000"><br/>
-            	Color interior: <input type="color" id="colorintA"><br/>
-            	Color exterior: <input type="color" id="colorextA"><br/>
-            	Transmision: <select id="transmisionA">
+            	Kilometraje:<input type="number" id="kiloA" min="0" class="form-control"><br/>
+            	Num cilindros:<input type="number" id="cilindrosA" min="1" max="16" class="form-control"><br/>
+            	HP: <input type="number" id="hpA" min="1" max="2000" class="form-control"><br/>
+            	Color interior:<br/><input type="color" id="colorintA"><br/>
+            	Color exterior:<br/><input type="color" id="colorextA"><br/>
+            	Transmision: <select id="transmisionA" class="form-control">
             		<option value="auto">Automatico</option>
             		<option value="manual">Manual</option>
             	</select><br/>
-            	Combustible: <select id="combustibleA">
+            	Combustible: <select id="combustibleA" class="form-control">
             		<option value="gasolina">Gasolina</option>
             		<option value="diesel">Diesel</option>
             	</select><br/>
-            	AC: <select id="acA">
+            	AC: <select id="acA" class="form-control">
             		<option value="true">Si</option>
             		<option value="false">No</option>
             	</select>
                 <br> 
-                <button class="button btn btn-primary" type="submit" onclick="sendData()">Enviar</button>
+                <button class="button btn btn-success" type="submit" onclick="sendData()">Enviar</button>
             	</div>
-        
             </div>
-
         </div>
 
         <div id="bajas" style="display:none"> 
             <h2>Baja de autos</h2>
             <div class="body">
                 Introduce las placas del auto a dar de baja:<input type="text" maxlength="6" id="placasB"/><br>
-            <button class="button" type="submit" onclick="deleteData()">DAR DE BAJA</button>
+            <button class="btn btn-danger" type="submit" onclick="deleteData()">DAR DE BAJA</button>
             <p id="infoBxml"></p>
             <p id="infoBjson"></p>
         	</div>
@@ -83,50 +82,45 @@
         <div id="cambios" style="display:none">
             <h2>Cambios en Información de autos</h2>
              Introduce la placa del auto a modificar:
-         	<input type="text" maxlength="6" id="buscarC"/><br>
-        	<button class="button" type="submit" onclick="changeData()">Buscar</button>
+         	<input type="text" maxlength="6" id="buscarC"/>
+        	<button class="btn btn-primary" type="submit" onclick="changeData()">Buscar</button>
 
             <div class="body" id="formCambios" style="display:block">
-
                 <div class="body row">
-
                 <div class="col-md-6">
                 <p>Modifica los campos que requieras:</p>
-				Placas:<input type="text" id="placasC" readonly><br/>
-				Precio<input type="number" id="precioC" min="0"><br/>
-				Marca:<input type="text" id="marcaC"><br/>
-				Modelo:<input type="text" id="modeloC"><br/>
-				Version:<input type="text" id="versionC"><br/>
-				Tipo:<input type="text" id="tipoC"><br/>
-				Año:<input type="number" id="anoC" min="1900" max="2018"><br/>
+				Placas:<input type="text" id="placasC" readonly class="form-control"><br/>
+				Precio<input type="number" id="precioC" min="0" class="form-control"><br/>
+				Marca:<input type="text" id="marcaC" class="form-control"><br/>
+				Modelo:<input type="text" id="modeloC" class="form-control"><br/>
+				Version:<input type="text" id="versionC" class="form-control"><br/>
+				Tipo:<input type="text" id="tipoC" class="form-control"><br/>
+				Año:<input type="number" id="anoC" min="1900" max="2018" class="form-control"><br/>
                 </div>
-
                 <div class="col-md-6">
-				Kilometraje:<input type="number" id="kiloC" min="0"><br/>
-				Num cilindros:<input type="number" id="cilindrosC" min="1" max="16"><br/>
-				HP: <input type="number" id="hpC" min="1" max="2000"><br/>
-				Color interior: <input type="color" id="colorintC"><br/>
-				Color exterior: <input type="color" id="colorextC"><br/>
-				Transmision: <select id="transmisionC">
+				Kilometraje:<input type="number" id="kiloC" min="0" class="form-control"><br/>
+				Num cilindros:<input type="number" id="cilindrosC" min="1" max="16" class="form-control"><br/>
+				HP: <input type="number" id="hpC" min="1" max="2000" class="form-control"><br/>
+				Color interior:<br/><input type="color" id="colorintC"><br/>
+				Color exterior:<br/><input type="color" id="colorextC"><br/>
+				Transmision: <select id="transmisionC" class="form-control">
 					<option value="auto">Automatico</option>
 					<option value="manual">Manual</option>
 				</select><br/>
-				Combustible: <select id="combustibleC">
+				Combustible: <select id="combustibleC" class="form-control">
 					<option value="gasolina">Gasolina</option>
 					<option value="diesel">Diesel</option>
 				</select><br/>
-				AC: <select id="acC">
+				AC: <select id="acC" class="form-control">
 					<option value="true">Si</option>
 					<option value="false">No</option>
 				</select>
                 <p id="indexXML" style="display:none"></p>
                 <p id="indexJSON" style="display:none"></p>
-                <button class="button btn btn-primary" type="submit" onclick="updateData($('#indexJSON').text() , $('#indexXML').text())">Actualizar</button>
-
+                <button class="button btn btn-success" type="submit" onclick="updateData($('#indexJSON').text() , $('#indexXML').text())">Actualizar</button>
                 </div>
                 </div>
             </div>
-
         </div>
 
         <div id="buscar" style="display:none">
@@ -174,6 +168,22 @@
                 <textarea rows="10" cols="40" id="jsontext"></textarea>
             </div>
         </div>
+
+        <div id="multimedia">
+			<h4>Video</h4>
+			<iframe width="560" height="315" >Video no soportado por tu navegador.</iframe>
+			<h4>Audio</h4>
+			<audio src="media/ghost.mp3" controls>Audio no soportado por tu navegador.</audio>
+        </div>
+
+        <div id="api">
+  		<script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script><div style='overflow:hidden;height:440px;width:700px;'><div id='gmap_canvas' style='height:440px;width:700px;'></div><div><small><a href="http://embedgooglemaps.com">embed google map</a></small></div><div><small><a href="http://directorioweblol.com">directorio de enlaces</a></small></div><style>#gmap_canvas img{max-width:none!important;background:none!important}</style></div><script type='text/javascript'>function init_map(){var myOptions = {zoom:10,center:new google.maps.LatLng(19.4083164,-99.1810941),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(19.4083164,-99.1810941)});infowindow = new google.maps.InfoWindow({content:'<strong>Título</strong><br>Universidad La Salle<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
+        </div>
+
+        <div id="canvas">
+        	<canvas id="dibujo" height="200" width="200" style="background-color: yellow;"></canvas>
+        </div>
+
     </div>
     </body>
 </html>
