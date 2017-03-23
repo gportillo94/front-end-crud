@@ -171,10 +171,12 @@ function busqueda(){
 	var valor = $("#textoBusqueda").val(); 
 	var x = xmlDoc.getElementsByTagName("auto");
 	var newRow = headerTabla() ; 
+	var mostrados = {} ; 
 
 	for (var index=0 ; index<x.length ; index++){
 		if (x[index].getElementsByTagName(campo)[0].textContent === valor){
 			newRow += "<tr>" ;
+			mostrados[x[index].getElementsByTagName("placas")[0].textContent] = true ; 
 			for (var i=0 ; i<x[index].children.length ; i++){
 				newRow += "<td>" + 	x[index].children[i].textContent + "</td>";
 			}
@@ -182,8 +184,10 @@ function busqueda(){
 		}
 	}
 
+	console.log(mostrados)
+
 	for (var index=0 ; index<autos.length ; index++){
-		if (autos[index][campo] === valor){
+		if (autos[index][campo] === valor && mostrados[autos[index]["placas"]] != true){
 			newRow += "<tr>" ;
 			newRow += "<td>" + autos[index].placas + "</td>";
 			newRow += "<td>" + autos[index].precio + "</td>";
